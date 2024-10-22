@@ -63,5 +63,8 @@ class Program
         Console.WriteLine($"PR2: {bestPR2}");
         Console.WriteLine($"Skutečná frekvence: {bestF_real} Hz");
         Console.WriteLine($"Chyba: {minError} Hz");
+
+        Console.WriteLine("Press any key to exit...");
+        Console.ReadLine();
     }
 }
