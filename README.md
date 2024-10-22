@@ -1,2 +1,2 @@
 # PIC16F690 TIMER2 CALCULATOR #
-This program can easily calculate maximal error and
+This program can easily calculate the right settings to Prescaler, PR2, and Postscaler for microcontroller PIC16F690 in which is TIMER2 programmable "oscilator frequency divider" which is used to generate longer wait intervals using interrupt flag. 
