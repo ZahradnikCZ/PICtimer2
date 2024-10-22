@@ -65,6 +65,7 @@ class Program
         Console.WriteLine($"Chyba: {minError} Hz");
 
         Console.WriteLine("Press any key to exit...");
+        Console.WriteLine(" ");
         Console.ReadLine();
     }
 }
