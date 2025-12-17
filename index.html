@@ -1,25 +1,118 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Výpočet frekvence</title>
-    <link rel="stylesheet" href="./webpage/style.css"> <!-- CSS soubor pro styl -->
+    <meta name="description"
+        content="Kalkulačka pro výpočet výstupní frekvence oscilátoru s prescalerem, postscalerem a PR2">
+    <title>Výpočet frekvence | PIC Timer Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./webpage/style.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1>Výpočet výstupní frekvence</h1>
-        <p>Výsledek si zkontroluj pomocí kalkulačky!!!</p>
-        <label for="fosc">Zadejte frekvenci oscilátoru (Fosc v Hz):</label>
-        <input type="number" id="fosc" placeholder="Fosc v Hz">
-        
-        <label for="ftarget">Zadejte požadovanou výstupní frekvenci (v Hz):</label>
-        <input type="number" id="ftarget" placeholder="Frekvence v Hz">
-        
-        <button id="calculate">Spočítat</button>
-        
-        <p id="result"></h2>
+    <div class="app-wrapper">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    PIC Timer
+                </h1>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Přepnout tmavý/světlý režim"
+                    title="Přepnout režim">
+                    <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Výpočet frekvence</h2>
+                        <p class="subtitle">Kalkulačka pro PIC mikrokontroléry</p>
+                    </div>
+
+                    <div class="alert" role="alert">
+                        <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                            </path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <span>Výsledek ověř pomocí kalkulačky!</span>
+                    </div>
+
+                    <form id="calculator-form" class="form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fosc" class="form-label">Fosc <span class="label-hint">(Hz)</span></label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="fosc" class="form-input" placeholder="např. 4000000"
+                                        aria-describedby="fosc-help" required min="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ftarget" class="form-label">Cílová frekvence <span
+                                        class="label-hint">(Hz)</span></label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="ftarget" class="form-input" placeholder="např. 1000"
+                                        aria-describedby="ftarget-help" required min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="calculate" class="btn btn-primary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                                <line x1="8" y1="6" x2="16" y2="6"></line>
+                                <line x1="8" y1="10" x2="10" y2="10"></line>
+                                <line x1="14" y1="10" x2="16" y2="10"></line>
+                                <line x1="8" y1="14" x2="10" y2="14"></line>
+                                <line x1="14" y1="14" x2="16" y2="14"></line>
+                                <line x1="8" y1="18" x2="10" y2="18"></line>
+                                <line x1="14" y1="18" x2="16" y2="18"></line>
+                            </svg>
+                            Spočítat
+                        </button>
+                    </form>
+
+                    <div id="result" class="result-section" aria-live="polite" aria-atomic="true"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Timer2 kalkulačka pro PIC mikrokontroléry</p>
+        </footer>
     </div>
-    <script src="./webpage/script.js"></script> <!-- JavaScript soubor pro logiku -->
+
+    <script src="./webpage/script.js"></script>
 </body>
+
 </html>
